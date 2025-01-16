@@ -1,0 +1,42 @@
+{
+  "name": "equinedutyapi",
+  "version": "1.0.0",
+  "description": "API for the Equine duty website project",
+  "main": "index.js",
+  "prisma": {
+    "seed": "node prisma/seed.js"
+  },
+  "scripts": {
+    "test": "jest -i --setupFiles=dotenv/config --forceExit",
+    "start": "node index.js"
+  },
+  "author": "Equine Duty API Team",
+  "license": "ISC",
+  "dependencies": {
+    "@prisma/client": "^5.10.2",
+    "@sentry/node": "^7.106.1",
+    "bcryptjs": "^2.4.3",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.0",
+    "express": "^4.18.2",
+    "express-rate-limit": "^7.2.0",
+    "express-validation": "^4.1.0",
+    "file-type": "^16.5.4",
+    "helmet": "^7.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "multer": "^1.4.5-lts.1",
+    "nodemailer": "^6.9.9",
+    "stripe": "^14.17.0",
+    "uuid": "^9.0.1",
+    "winston": "^3.11.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.56.0",
+    "eslint-config-google": "^0.14.0",
+    "jest": "^29.7.0",
+    "jest-mock-extended": "^3.0.5",
+    "prisma": "^5.10.2",
+    "supertest": "^6.3.4"
+  }
+}

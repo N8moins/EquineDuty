@@ -1,0 +1,27 @@
+meta {
+  name: POST Rider
+  type: http
+  seq: 8
+}
+
+post {
+  url: http://localhost:8080/api/users/1/riders
+  body: json
+  auth: none
+}
+
+headers {
+  Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoyLCJyb2xlIjoiQURNSU4iLCJuYW1lIjoiTWFyayBBZG1pbyIsImlzX3ZlcmlmaWVkIjpmYWxzZX0sImlhdCI6MTcwNzg1NTM1NCwiZXhwIjoxNzA5MDY0OTU0fQ.DT4xxyhL-IRGZsoz7i97WopbW_es-lz8TWRWq95xZlA
+}
+
+body:json {
+  {
+    "name": "A",
+    "phone": "123-123-1232", 
+    "email": "a@a.com", 
+    "emergency_name": "max", 
+    "emergency_phone": "123-123-4455", 
+    "stable_name": "ECURIE", 
+    "trainer_name": "TEST"
+  }
+}

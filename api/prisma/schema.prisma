@@ -1,0 +1,485 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "linux-musl-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+/// All the Prices are in Int to deal with cents. Need to convert. Do not have
+/// any calculation problems.
+
+model Users {
+  id                 Int                 @id @default(autoincrement())
+  is_verified        Boolean             @default(false)
+  is_active          Boolean             @default(true)
+  name               String
+  email              String              @unique
+  phone              String
+  password           String
+  birthdate          DateTime?
+  role               Role                @default(USER)
+  createdAt          DateTime            @default(now())
+  updatedAt          DateTime            @updatedAt
+  Inscriptions       Inscriptions[]
+  Horses             Horses[]
+  Riders             Riders[]
+  refreshToken       RefreshTokens[]
+  verifyToken        VerifyTokens[]
+  Shows              Shows[]             @relation(name: "secretary")
+  Show               Shows[]             @relation(name: "Organizer")
+  Tests              Tests[]
+  Address            Address[]
+  StripeAccountUsers StripeAccountUsers?
+  OrganizerShows     OrganizerShows?
+}
+
+model OrganizerShows {
+  id              Int      @id @default(autoincrement())
+  user            Users    @relation(fields: [user_id], references: [id])
+  user_id         Int      @unique
+  remaining_shows Int      @default(0)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model StripeAccountUsers {
+  id                Int      @id @default(autoincrement())
+  user              Users    @relation(fields: [user_id], references: [id])
+  user_id           Int      @unique
+  stripe_account_id String   @unique
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+}
+
+// 0:
+enum Role {
+  USER
+  SECRETARY
+  ORGANIZER
+  ADMIN
+}
+
+model Address {
+  id                Int      @id @default(autoincrement())
+  street_address    String
+  province          String
+  country           String
+  city              String
+  zip_code          String
+  other_information String?
+  organizer         Users    @relation(fields: [organizer_id], references: [id], onDelete: Cascade)
+  organizer_id      Int
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  Shows             Shows[]
+}
+
+model Packages {
+  id                    Int                     @id @default(autoincrement())
+  name                  String
+  description           String
+  tack_stalls           Int?
+  stalls                Int?
+  hays                  Int?
+  chiving              Int?
+  price                 Int
+  createdAt             DateTime                @default(now())
+  updatedAt             DateTime                @updatedAt
+  Shows_Packages        Shows_Packages[]
+  Inscriptions_Packages Inscriptions_Packages[]
+}
+
+/// Link a package to a show
+model Shows_Packages {
+  id         Int      @id @default(autoincrement())
+  show       Shows    @relation(fields: [show_id], references: [id], onDelete: Cascade)
+  show_id    Int
+  package    Packages @relation(fields: [package_id], references: [id], onDelete: Cascade)
+  package_id Int
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model Shows {
+  id                            Int                 @id @default(autoincrement())
+  name                          String
+  address                       Address             @relation(fields: [address_id], references: [id], onDelete: Cascade)
+  address_id                    Int
+  organizer                     Users               @relation(name: "Organizer", fields: [organizer_id], references: [id], onDelete: Cascade)
+  organizer_id                  Int
+  path_logo                     String?
+  nb_total_place                Int
+  nb_free_place                 Int
+  nb_temp_stalls                Int
+  nb_permanent_stalls           Int
+  nb_tack_stalls                Int
+  nb_free_temp_stalls           Int
+  nb_free_permanent_stalls      Int
+  nb_free_tack_stalls           Int
+  show_fees                     Shows_Fees          @relation(fields: [show_fee_id], references: [id], onDelete: Cascade)
+  show_fee_id                   Int
+  administration_fee            Administration_Fees @relation(fields: [administration_fee_id], references: [id], onDelete: Cascade)
+  administration_fee_id         Int
+  recognized_show               Boolean             @default(false)
+  rules                         String
+  start_date                    DateTime
+  inscription_start_date        DateTime
+  inscription_end_date          DateTime
+  inscription_end_late_date     DateTime?
+  is_vaccination_proof_required Boolean
+  is_coggins_proof_required     Boolean
+  end_date                      DateTime
+  is_published                  Boolean             @default(false)
+  secretary                     Users               @relation(name: "secretary", fields: [secretary_id], references: [id], onDelete: Cascade)
+  secretary_id                  Int
+  createdAt                     DateTime            @default(now())
+  updatedAt                     DateTime            @updatedAt
+  Shows_Packages                Shows_Packages[]
+  Classes                       Classes[]
+  Inscriptions                  Inscriptions[]
+  show_aksed_code               Shows_Asked_Codes[]
+  schedule                      Schedule[]
+}
+
+model Shows_Fees {
+  id                      Int      @id @default(autoincrement())
+  hay                     Int
+  chiving                Int
+  temp_stall_per_day      Int
+  permanent_stall_per_day Int
+  tack_stall_per_day      Int
+  drug_test               Int
+  createdAt               DateTime @default(now())
+  updatedAt               DateTime @updatedAt
+  Shows                   Shows[]
+}
+
+model VerifyTokens {
+  id        Int      @id @default(autoincrement())
+  token     String   @unique
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  user      Users    @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  user_id   Int      @unique
+}
+
+model Administration_Fees {
+  id                   Int      @id @default(autoincrement())
+  administration       Int
+  late_inscription     Int
+  cancel_inscription   Int
+  ground               Int
+  paramedics           Int
+  camper_ground_rental Int
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+  Shows                Shows[]
+}
+
+model Other_Fees {
+  id        Int       @id @default(autoincrement())
+  name      String
+  price     Int
+  type      Fees_Type
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+enum Fees_Type {
+  SHOW
+  ADMINISTRATION
+}
+
+/// Reprise
+model Tests {
+  id                       Int       @id @default(autoincrement())
+  number                   String
+  name                     String
+  short_name               String
+  points_precision         Int
+  duration_minute          Int
+  nb_standard_marks        Int?
+  nb_collectives_marks     Int?
+  total_points_possibility Int
+  user                     Users     @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  user_id                  Int
+  createdAt                DateTime  @default(now())
+  updatedAt                DateTime  @updatedAt
+  Results                  Results[]
+  Classes                  Classes[]
+  Marks                    Marks[]
+}
+
+model Marks {
+  id          Int        @id @default(autoincrement())
+  move_name   String
+  note        Int
+  coef_points Float
+  type        Marks_Type @default(STANDARD)
+  test        Tests      @relation(fields: [test_id], references: [id], onDelete: Cascade)
+  test_id     Int
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+}
+
+enum Marks_Type {
+  STANDARD
+  COLLECTIVE
+}
+
+model Classes {
+  id                   Int                    @id @default(autoincrement())
+  number               String
+  name                 String
+  date                 DateTime
+  ring_name            String
+  ring_number          String
+  price_entry          Int
+  show                 Shows                  @relation(fields: [show_id], references: [id], onDelete: Cascade)
+  show_id              Int
+  test                 Tests                  @relation(fields: [test_id], references: [id], onDelete: Cascade)
+  test_id              Int                    @default(0)
+  level_type           String
+  is_test_of_choice    Boolean                @default(false)
+  createdAt            DateTime               @default(now())
+  updatedAt            DateTime               @updatedAt
+  Classes_Inscriptions Classes_Inscriptions[]
+  Judges_Classes       Judges_Classes[]
+}
+
+model Horses {
+  id            Int            @id @default(autoincrement())
+  name          String
+  sex           String
+  no_fei        String?
+  no_micro_chip String?
+  path_vaccine  String?
+  path_coggins  String?
+  name_owner    String
+  fei_owner     String?
+  email_owner   String
+  phone_owner   String
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  user          Users          @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  user_id       Int
+  Inscriptions  Inscriptions[]
+  Results       Results[]
+}
+
+model Riders {
+  id              Int            @id @default(autoincrement())
+  name            String
+  phone           String
+  email           String
+  no_fei          String?
+  emergency_name  String
+  emergency_phone String
+  stable_name     String
+  trainer_name    String
+  user            Users          @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  user_id         Int
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+  Inscriptions    Inscriptions[]
+  Results         Results[]
+}
+
+model Inscriptions {
+  id                       Int                        @id @default(autoincrement())
+  horse                    Horses                     @relation(fields: [horse_id], references: [id], onDelete: Cascade)
+  horse_id                 Int
+  rider                    Riders                     @relation(fields: [rider_id], references: [id], onDelete: Cascade)
+  rider_id                 Int
+  show                     Shows                      @relation(fields: [show_id], references: [id], onDelete: Cascade)
+  show_id                  Int
+  user                     Users                      @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  user_id                  Int
+  no_fei                   String?
+  nb_stalls                Int
+  nb_tack_stalls           Int
+  nb_hay_bale              Int
+  nb_chiving_bags         Int
+  stall_type               Stall_Type
+  nb_days                  Int
+  total                    Int
+  has_payed                Boolean                    @default(false)
+  invoice_number           String?
+  approved                 Boolean                    @default(false)
+  rider_entry_number       Int
+  createdAt                DateTime                   @default(now())
+  updatedAt                DateTime                   @updatedAt
+  Inscriptions_Asked_Codes Inscriptions_Asked_Codes[]
+  Classes_Inscriptions     Classes_Inscriptions?
+  Inscriptions_Packages    Inscriptions_Packages[]
+}
+
+enum Stall_Type {
+  TEMPORARY
+  PERMANENT
+}
+
+model Classes_Inscriptions {
+  id             Int          @id @default(autoincrement())
+  class          Classes      @relation(fields: [class_id], references: [id], onDelete: Cascade)
+  class_id       Int
+  inscription    Inscriptions @relation(fields: [inscription_id], references: [id], onDelete: Cascade)
+  inscription_id Int          @unique
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+}
+
+model Shows_Asked_Codes {
+  id              Int      @id @default(autoincrement())
+  show            Shows    @relation(fields: [show_id], references: [id], onDelete: Cascade)
+  show_id         Int
+  asked_code_name String
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model Inscriptions_Asked_Codes {
+  id             Int          @id @default(autoincrement())
+  code_name      String
+  inscription    Inscriptions @relation(fields: [inscription_id], references: [id], onDelete: Cascade)
+  inscription_id Int
+  code_value     String
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+}
+
+/// Link a package to a inscription
+model Inscriptions_Packages {
+  id             Int          @id @default(autoincrement())
+  inscription    Inscriptions @relation(fields: [inscription_id], references: [id], onDelete: Cascade)
+  inscription_id Int
+  package        Packages     @relation(fields: [package_id], references: [id], onDelete: Cascade)
+  package_id     Int
+  nb_packages    Int
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+}
+
+model Judges_Classes {
+  id            Int              @id @default(autoincrement())
+  class         Classes          @relation(fields: [class_id], references: [id], onDelete: Cascade)
+  class_id      Int
+  ring_name     String
+  name          String
+  ring_position Judges_Positions
+  results       Results[]
+  createdAt     DateTime         @default(now())
+  updatedAt     DateTime         @updatedAt
+}
+
+model Results {
+  id                 Int            @id @default(autoincrement())
+  test               Tests          @relation(fields: [test_id], references: [id], onDelete: Cascade)
+  test_id            Int
+  rider_id           Int
+  horse_id           Int
+  horse_name         String
+  rider_name         String
+  score              Float
+  nb_errors          Int
+  reason             Term_Reason
+  judge_id           Int
+  judge              Judges_Classes @relation(fields: [judge_id], references: [id], onDelete: Cascade)
+  rider_entry_number Int
+  createdAt          DateTime       @default(now())
+  updatedAt          DateTime       @updatedAt
+  rider              Riders?        @relation(fields: [rider_id], references: [id])
+  horse              Horses?        @relation(fields: [horse_id], references: [id])
+}
+
+enum Term_Reason {
+  ELEMINATED
+  HC
+  NO_SHOW
+  RETIRED
+  SCRATCH
+  VET_OUT
+  WITHDREW
+}
+
+enum Judges_Positions {
+  E
+  H
+  C
+  M
+  B
+}
+
+model RefreshTokens {
+  id        Int      @id @default(autoincrement())
+  token     String   @unique
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  user      Users    @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  user_id   Int      @unique
+}
+
+model Schedule {
+  id            Int             @id @default(autoincrement())
+  show          Shows           @relation(fields: [show_id], references: [id], onDelete: Cascade)
+  show_id       Int
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+  Ring_Schedule Ring_Schedule[]
+}
+
+model Ring_Schedule {
+  id             Int              @id @default(autoincrement())
+  schedule       Schedule         @relation(fields: [schedule_id], references: [id], onDelete: Cascade)
+  schedule_id    Int
+  name           String
+  start_time     String
+  date           String
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+  Class_Schedule Class_Schedule[]
+}
+
+model Class_Schedule {
+  id               Int               @id @default(autoincrement())
+  ring_schedule    Ring_Schedule     @relation(fields: [ring_schedule_id], references: [id], onDelete: Cascade)
+  ring_schedule_id Int
+  number           String
+  name             String
+  duration_minute  Int
+  test             String
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+  Riders_Schedule  Riders_Schedule[]
+  Judges_Schedule  Judges_Schedule[]
+}
+
+model Riders_Schedule {
+  id                 Int            @id @default(autoincrement())
+  class_schedule     Class_Schedule @relation(fields: [class_schedule_id], references: [id], onDelete: Cascade)
+  class_schedule_id  Int
+  rider_id           Int
+  name               String
+  time_start         String
+  rider_entry_number Int            @default(0)
+  horse_name         String
+  horse_id           Int
+  createdAt          DateTime       @default(now())
+  updatedAt          DateTime       @updatedAt
+}
+
+model Judges_Schedule {
+  id                Int              @id @default(autoincrement())
+  class_schedule    Class_Schedule   @relation(fields: [class_schedule_id], references: [id], onDelete: Cascade)
+  class_schedule_id Int
+  name              String
+  position          Judges_Positions
+}

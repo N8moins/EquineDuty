@@ -1,0 +1,21 @@
+meta {
+  name: PATCH Inscription
+  type: http
+  seq: 2
+}
+
+patch {
+  url: http://localhost:80/api/shows/1/classes/1/inscriptions/1
+  body: json
+  auth: none
+}
+
+headers {
+  Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoyLCJyb2xlIjoiQURNSU4iLCJuYW1lIjoiTWFyayBBZG1pbyIsImlzX3ZlcmlmaWVkIjpmYWxzZX0sImlhdCI6MTcwODAzNjY5MCwiZXhwIjoxNzA5MjQ2MjkwfQ.oekADKFq8UX5qJmw-bPm89KXnCQVZ-DScZKQeIr5HpU
+}
+
+body:json {
+  {
+    "approved": true
+  }
+}

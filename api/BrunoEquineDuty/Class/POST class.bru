@@ -1,0 +1,29 @@
+meta {
+  name: POST class
+  type: http
+  seq: 4
+}
+
+post {
+  url: http://68.183.197.146:80/api/shows/1/classes
+  body: json
+  auth: none
+}
+
+headers {
+  Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoyLCJyb2xlIjoiQURNSU4iLCJuYW1lIjoiTWFyayBBZG1pbyIsImlzX3ZlcmlmaWVkIjpmYWxzZX0sImlhdCI6MTcwNzg1MjExMiwiZXhwIjoxNzA5MDYxNzEyfQ.miC8RpdgRHR7S0Q4ERtj7xxjENy2py-J8mNuKD2PSmE
+}
+
+body:json {
+  {
+    "number": "1-1",
+    "name": "ALLO",
+    "date": "2024-01-09",
+    "ring_name": "RING HELLO", 
+    "ring_number": "AB2",
+    "price_entry": 12,
+    "level_type": "Training",
+    "is_test_of_choice": true,
+    "test_id": 2
+  }
+}

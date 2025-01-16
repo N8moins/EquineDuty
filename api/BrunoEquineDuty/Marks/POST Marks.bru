@@ -1,0 +1,24 @@
+meta {
+  name: POST Marks
+  type: http
+  seq: 1
+}
+
+post {
+  url: http://localhost:80/api/users/1/test/1/mark
+  body: json
+  auth: none
+}
+
+headers {
+  Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoyLCJyb2xlIjoiQURNSU4iLCJuYW1lIjoiTWFyayBBZG1pbyIsImlzX3ZlcmlmaWVkIjpmYWxzZX0sImlhdCI6MTcwODM1NTk0MywiZXhwIjoxNzA5NTY1NTQzfQ.z_iA1t7rABagkzN1hnN4in04HorrfgYDoETqqIbeLCk
+}
+
+body:json {
+  {
+    "move_name": "abc",
+    "note": 24,
+    "coef_points": 2,
+    "type": "STANDARD"
+  }
+}

@@ -1,0 +1,28 @@
+meta {
+  name: PUT Cavalier
+  type: http
+  seq: 2
+}
+
+put {
+  url: http://localhost:8080/api/users/3/riders/3
+  body: json
+  auth: none
+}
+
+headers {
+  Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjozLCJyb2xlIjoiVVNFUiJ9LCJpYXQiOjE3MDcxNDIwMDUsImV4cCI6MTcwNzE0MjMwNX0.S35s1gHcM_Tzt7cURK3O7DfeXlwqZrdPnIH6Zi0-rv8
+}
+
+body:json {
+  {
+    "name": "test",
+    "phone": "4505554444",
+    "email": "test@email.com",
+    "no_fei": "58675786",
+    "emergency_name": "michel michaud",
+    "emergency_phone": "5140005555",
+    "stable_name": "michmich",
+    "trainer_name": "Seb DJ"
+  }
+}

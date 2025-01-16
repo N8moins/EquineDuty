@@ -1,0 +1,6 @@
+node_modules/
+.env
+exception.log
+.DS_Store
+logfile.log
+!.gitkeep

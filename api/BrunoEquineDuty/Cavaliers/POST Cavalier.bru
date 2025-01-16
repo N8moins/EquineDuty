@@ -1,0 +1,28 @@
+meta {
+  name: POST Cavalier
+  type: http
+  seq: 1
+}
+
+post {
+  url: http://localhost:8080/api/users/3/riders
+  body: json
+  auth: none
+}
+
+headers {
+  Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoyLCJyb2xlIjoiQURNSU4iLCJuYW1lIjoiTWFyayBBZG1pbyIsImlzX3ZlcmlmaWVkIjpmYWxzZX0sImlhdCI6MTcwNzg1MzA3NywiZXhwIjoxNzA5MDYyNjc3fQ.lEozLILuprL3GvEiX9UTaMZtvWNQkkpDOZ10GseXt7Y
+}
+
+body:json {
+  {
+    "name": "test",
+    "phone": "4505554444",
+    "email": "test@email.com",
+    "no_fei": "58675786",
+    "emergency_name": "michel michaud",
+    "emergency_phone": "5140005555",
+    "stable_name": "michmich",
+    "trainer_name": "Seb DJ"
+  }
+}

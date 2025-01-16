@@ -1,0 +1,27 @@
+meta {
+  name: modifier account
+  type: http
+  seq: 8
+}
+
+put {
+  url: http://localhost:80/api/users/4
+  body: json
+  auth: none
+}
+
+headers {
+  Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoyLCJyb2xlIjoiQURNSU4iLCJuYW1lIjoiTWFyayBBZG1pbyIsImlzX3ZlcmlmaWVkIjp0cnVlLCJzdHJpcGVfY29ubmVjdGVkIjpmYWxzZX0sImlhdCI6MTcwOTIyOTI5OSwiZXhwIjoxNzEwNDM4ODk5fQ.pnpyzK1IhZGRnj4k1aMfjauX82eLPwrLMyg4HwgDhSI
+}
+
+body:json {
+  {
+    "name": "Bob",
+    "phone": "450-869-9045",
+    "birthdate": "1992-07-03",
+    "email": "Bob@email.com",
+    "role": "ORGANIZER",
+    "is_verified": true,
+    "is_active": true
+  }
+}

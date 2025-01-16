@@ -1,0 +1,18 @@
+meta {
+  name: Login ADMIN
+  type: http
+  seq: 1
+}
+
+post {
+  url: http://localhost:80/api/auth/admin-login
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "email": "secretary@email.com",
+    "password": "Password123!"
+  }
+}

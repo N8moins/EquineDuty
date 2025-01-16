@@ -1,0 +1,36 @@
+#!/bin/bash
+
+# Stop all containers and print the id in a file. Then delete the file
+docker stop $(docker ps -a -q) > ~/stoppedContainers.txt
+echo "All Stopped Containers ID : "
+cat ~/stoppedContainers.txt
+rm ~/stoppedContainers.txt
+
+# Compose down the containers
+echo "--- COMPOSE DOWN ---"
+docker compose down
+
+# Clear all containers
+echo "--- CONTAINERS ---"
+docker container prune -f
+
+
+# Clear all images
+echo "--- IMAGES ---"
+docker image prune -af
+
+# Clear all volumes
+echo "--- VOLUMES ---"
+docker volume prune -af
+
+# Re-up containers
+echo "--- COMPOSE UP ---"
+docker compose up -d --build
+
+# Check command line arguments if --migrate is present
+sleep 5
+if [ "$1" == "--migrate" ]; then
+    echo "--- MIGRATE ---"
+    docker exec -it express npx prisma migrate reset
+fi
+

@@ -1,0 +1,28 @@
+meta {
+  name: PUT class
+  type: http
+  seq: 1
+}
+
+put {
+  url: http://localhost:8080/api/shows/1/classes/1
+  body: json
+  auth: none
+}
+
+headers {
+  Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoyLCJyb2xlIjoiQURNSU4iLCJuYW1lIjoiTWFyayBBZG1pbyIsImlzX3ZlcmlmaWVkIjpmYWxzZX0sImlhdCI6MTcwNzg1MzMwMCwiZXhwIjoxNzA5MDYyOTAwfQ.Llfu_d1R9hbfc46FQuJA2V4uvyqZHKEg4frVQ1Do1FE
+}
+
+body:json {
+  {
+    "number" : "Pablo2",
+    "name" : "Bechamel",
+    "date" : "2024-02-01 10:00:00.000",
+    "ring_name" : "Master of Puppet",
+    "ring_number" : "2TG",
+    "price_entry" : 70,
+    "level_type" : "Master",
+    "is_test_of_choice" : true  
+  }
+}

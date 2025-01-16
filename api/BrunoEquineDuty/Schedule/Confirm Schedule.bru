@@ -1,0 +1,109 @@
+meta {
+  name: Confirm Schedule
+  type: http
+  seq: 2
+}
+
+post {
+  url: http://localhost:80/api/shows/1/schedule/date/2024-01-09/confirmSchedule
+  body: json
+  auth: none
+}
+
+headers {
+  Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoyLCJyb2xlIjoiQURNSU4iLCJuYW1lIjoiTWFyayBBZG1pbyIsImlzX3ZlcmlmaWVkIjp0cnVlfSwiaWF0IjoxNzEwMjYwOTcxLCJleHAiOjE3MTE0NzA1NzF9.4icAAVivhIZ3TI2Q3GR8l0fd99DiuYZUwDLvD1dvnoU
+}
+
+body:json {
+  {
+    "rings": [
+      {
+        "name": "allo",
+        "start_time": "11:00 JMEN BLC",
+        "date": "2024-01-09",
+        "ClassSchedule": [
+          {
+            "number": "abc",
+            "name": "Jumping Area A",
+            "duration_minute": 3,
+            "test": "1-1 (SHORT NAME)",
+            "riders": [
+              {
+                "id": 1,
+                "name": "Bob",
+                "time_start": "08:00",
+                "rider_entry_number": 1,
+                "horse": {
+                  "name": "BREAK",
+                  "id": 1
+                }
+              }
+            ],
+            "judges": [
+              {
+                "name": "Marco",
+                "position": "B"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "new ring",
+        "start_time": "13:00 JMEN BLC",
+        "date": "2024-01-09",
+        "ClassSchedule": [
+          {
+            "number": "456",
+            "name": "Jumping Area B",
+            "duration_minute": 4,
+            "test": "2-1 (SHORT NAME)",
+            "riders": [
+              {
+                "id": 1,
+                "name": "Bob",
+                "time_start": "08:50",
+                "rider_entry_number": 1,
+                "horse": {
+                  "name": "BREAK",
+                  "id": 1
+                }
+              }
+            ],
+            "judges": [
+              {
+                "name": "Maria",
+                "position": "B"
+              }
+            ]
+          },
+          {
+            "number": "1-2",
+            "name": "Jumping Area B",
+            "duration_minute": 4,
+            "test": "2-1 (SHORT NAME)",
+            "riders": [
+              {
+                "id": 1,
+                "name": "Alice",
+                "time_start": "08:50",
+                "rider_entry_number": 1,
+                "horse": {
+                  "name": "BREAK",
+                  "id": 1
+                }
+              }
+            ],
+            "judges": [
+              {
+                "name": "Maria",
+                "position": "B"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+  
+}

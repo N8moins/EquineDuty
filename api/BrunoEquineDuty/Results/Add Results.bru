@@ -1,0 +1,25 @@
+meta {
+  name: Add Results
+  type: http
+  seq: 1
+}
+
+post {
+  url: http://localhost:80/api/results/test/1/rider/1
+  body: json
+  auth: none
+}
+
+headers {
+  Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjo0LCJyb2xlIjoiT1JHQU5JWkVSIiwibmFtZSI6IkxvbGEgU2FwcmlzdGkiLCJpc192ZXJpZmllZCI6ZmFsc2V9LCJpYXQiOjE3MDc3NjY1NDgsImV4cCI6MTcwODk3NjE0OH0.mUbEAQKeeepp8NtL0T7z6kohT8287eu1dN7_HimoZ9c
+}
+
+body:json {
+  {
+    "score": 20,
+    "nbErrors": 2,
+    "reason": "RETIRED",
+    "horse_id": 1,
+    "rider_entry_number": 1
+  }
+}

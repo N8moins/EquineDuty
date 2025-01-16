@@ -1,0 +1,31 @@
+meta {
+  name: POST Inscriptions
+  type: http
+  seq: 1
+}
+
+post {
+  url: http://localhost/api/shows/1/classes/1/inscriptions
+  body: json
+  auth: none
+}
+
+headers {
+  Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoyLCJyb2xlIjoiQURNSU4iLCJuYW1lIjoiTWFyayBBZG1pbyIsImlzX3ZlcmlmaWVkIjp0cnVlfSwiaWF0IjoxNzEwMjY5ODAwLCJleHAiOjE3MTE0Nzk0MDB9.2b5c7SwOdOGusgNF1lHh0c2fo2tCLnlWzvOHZXJDaEY
+}
+
+body:json {
+  {
+      "horse_id": 1,
+      "rider_id": 1,
+      "nb_stalls": 1,
+      "nb_tack_stalls": 1,
+      "nb_hay_bale": 1,
+      "nb_chiving_bags": 1,
+      "show_asked_codes": {
+        "quebec_equestre": "abc"
+      },
+      "nb_days":1,
+      "Shows_Packages": [{"id":1, "count":1}]
+  }
+}

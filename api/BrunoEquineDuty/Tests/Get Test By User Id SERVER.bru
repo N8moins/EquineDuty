@@ -1,0 +1,15 @@
+meta {
+  name: Get Test By User Id SERVER
+  type: http
+  seq: 3
+}
+
+get {
+  url: http://localhost:8080/api/users/1/tests
+  body: none
+  auth: none
+}
+
+headers {
+  Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoxLCJyb2xlIjoiVVNFUiIsIm5hbWUiOiJKb2huIERvZSIsImlzX3ZlcmlmaWVkIjpmYWxzZX0sImlhdCI6MTcwNzY5MDczOSwiZXhwIjoxNzA4OTAwMzM5fQ.w0Ge1Vi-njytm9et78W7kOHqllJH5svHfUMv5HGtsYY
+}

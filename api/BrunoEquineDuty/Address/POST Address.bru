@@ -1,0 +1,26 @@
+meta {
+  name: POST Address
+  type: http
+  seq: 1
+}
+
+post {
+  url: http://localhost:8080/api/users/4/address/
+  body: json
+  auth: none
+}
+
+headers {
+  Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjo0LCJyb2xlIjoiT1JHQU5JWkVSIn0sImlhdCI6MTcwNzI1MjAxOSwiZXhwIjoxNzA4NDYxNjE5fQ.xOf7zowFVcKQx-km2e501xPmyo4N0Pp2g8HxrYbd1ZY
+}
+
+body:json {
+  {
+    "street_address": "123 Rue des Colibris", 
+    "province": "Quebec", 
+    "country": "Canada", 
+    "city": "Quebec",
+    "zip_code": "J2W1K1",
+    "other_information": "a"
+  }
+}
